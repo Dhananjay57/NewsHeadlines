@@ -2,15 +2,14 @@ package com.example.drizzle.newsheadlines.ui
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.drizzle.newsheadlines.R
 import com.example.drizzle.newsheadlines.data.network.Article
+import com.example.drizzle.newsheadlines.databinding.NewsArticleListItemBinding
 import kotlinx.android.synthetic.main.news_article_list_item.view.*
 
-class ArticlesAdapter(private val  articles: MutableList<Article>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ArticlesAdapter(private val  articles: MutableList<Article>?) : RecyclerView.Adapter<ArticlesAdapter.ArticleViewHolder>() {
 
     interface Callback {
         fun onArticleClick(url: String)
@@ -35,36 +34,24 @@ class ArticlesAdapter(private val  articles: MutableList<Article>?) : RecyclerVi
             null
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, p1: Int): RecyclerView.ViewHolder {
-        val articleViewHolder = ArticleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.news_article_list_item, parent, false))
-        articleViewHolder.itemView.setOnClickListener({
-            val article: Article? = getItem(articleViewHolder.adapterPosition)
-            if (article != null) {
-                callback?.onArticleClick(article.url ?: "")
-            }
-        })
-        return articleViewHolder
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
+        val inflater= LayoutInflater.from(parent.context)
+        val binding = NewsArticleListItemBinding.inflate(inflater)
+        return ArticleViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return articles?.size?:0
-    }
+    override fun getItemCount(): Int = articles?.size!!
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ArticleViewHolder).onBind(articles?.get(position))
-
-    }
-
-    class ArticleViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        fun onBind(article: Article?){
-            Glide
-                    .with(itemView.context)
-                    .load(article?.urlToImage)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(itemView.image)
-
-            itemView.title.text = article?.title
-            itemView.description.text = article?.description
+    override fun onBindViewHolder(holder: ArticleViewHolder, position: Int)= holder.bind(articles?.get(position)!!)
+   inner class ArticleViewHolder (val binding: NewsArticleListItemBinding):RecyclerView.ViewHolder(binding.root){
+        fun bind(item: Article){
+            binding.articles = item
+            binding.executePendingBindings()
+//            Glide
+//                    .with(itemView.context)
+//                    .load(item?.urlToImage)
+//                    .transition(DrawableTransitionOptions.withCrossFade())
+//                    .into(itemView.image)
         }
     }
 
