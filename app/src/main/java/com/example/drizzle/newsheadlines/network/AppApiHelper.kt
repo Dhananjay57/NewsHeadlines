@@ -1,6 +1,7 @@
-package com.example.drizzle.newsheadlines.data.network
+package com.example.drizzle.newsheadlines.network
 
 import com.example.drizzle.newsheadlines.data.Config
+import com.example.drizzle.newsheadlines.network.model.Headlines
 import io.reactivex.Observable
 import javax.inject.Inject
 

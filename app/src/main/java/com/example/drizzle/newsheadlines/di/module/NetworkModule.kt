@@ -1,8 +1,7 @@
 package com.example.drizzle.newsheadlines.di.module
 
-import android.os.Build
 import com.example.drizzle.newsheadlines.BuildConfig
-import com.example.drizzle.newsheadlines.data.network.ApiService
+import com.example.drizzle.newsheadlines.network.ApiService
 import com.example.drizzle.newsheadlines.di.BaseUrl
 import dagger.Module
 import dagger.Provides

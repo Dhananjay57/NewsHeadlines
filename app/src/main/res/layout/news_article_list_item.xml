@@ -5,7 +5,7 @@
     <data>
         <variable
             name="articles"
-            type="com.example.drizzle.newsheadlines.data.network.Article"/>
+            type="com.example.drizzle.newsheadlines.network.model.Article"/>
     </data>
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:scaleType="centerCrop"
+        app:urlToImage="@{articles.urlToImage}"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

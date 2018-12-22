@@ -3,11 +3,8 @@ package com.example.drizzle.newsheadlines.ui
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.drizzle.newsheadlines.data.network.Article
+import com.example.drizzle.newsheadlines.network.model.Article
 import com.example.drizzle.newsheadlines.databinding.NewsArticleListItemBinding
-import kotlinx.android.synthetic.main.news_article_list_item.view.*
 
 class ArticlesAdapter(private val  articles: MutableList<Article>?) : RecyclerView.Adapter<ArticlesAdapter.ArticleViewHolder>() {
 
@@ -43,16 +40,13 @@ class ArticlesAdapter(private val  articles: MutableList<Article>?) : RecyclerVi
     override fun getItemCount(): Int = articles?.size!!
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int)= holder.bind(articles?.get(position)!!)
-   inner class ArticleViewHolder (val binding: NewsArticleListItemBinding):RecyclerView.ViewHolder(binding.root){
+    inner class ArticleViewHolder (val binding: NewsArticleListItemBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(item: Article){
             binding.articles = item
             binding.executePendingBindings()
-//            Glide
-//                    .with(itemView.context)
-//                    .load(item?.urlToImage)
-//                    .transition(DrawableTransitionOptions.withCrossFade())
-//                    .into(itemView.image)
         }
     }
+
+
 
 }

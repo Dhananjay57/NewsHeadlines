@@ -1,10 +1,10 @@
-package com.example.drizzle.newsheadlines.data.network
+package com.example.drizzle.newsheadlines.network.model
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.arch.persistence.room.TypeConverters
-import android.databinding.adapters.Converters
+import com.example.drizzle.newsheadlines.data.room.Converters
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 

@@ -1,6 +1,6 @@
-package com.example.drizzle.newsheadlines.data.network
+package com.example.drizzle.newsheadlines.network
 
-import com.example.drizzle.newsheadlines.data.network.Headlines
+import com.example.drizzle.newsheadlines.network.model.Headlines
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query

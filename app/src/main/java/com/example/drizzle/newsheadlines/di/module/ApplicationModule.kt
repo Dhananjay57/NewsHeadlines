@@ -1,14 +1,17 @@
 package com.example.drizzle.newsheadlines.di.module
 
 import android.app.Application
+import android.arch.persistence.room.Room
+import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import com.example.drizzle.newsheadlines.NewsHeadlineApplication
 import com.example.drizzle.newsheadlines.R
-import com.example.drizzle.newsheadlines.data.AppDataManager
-import com.example.drizzle.newsheadlines.data.Config
-import com.example.drizzle.newsheadlines.data.DataManager
+import com.example.drizzle.newsheadlines.data.*
+import com.example.drizzle.newsheadlines.data.room.AppDatabase
+import com.example.drizzle.newsheadlines.network.ApiHelper
+import com.example.drizzle.newsheadlines.network.AppApiHelper
 import com.example.drizzle.newsheadlines.di.ApplicationContext
 import com.example.drizzle.newsheadlines.di.BaseUrl
 import dagger.Module
@@ -52,7 +55,27 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    internal fun provideDataManager(appDataManager: AppDataManager):DataManager{
+    fun provideRoomDatabase(@ApplicationContext context: Context):AppDatabase{
+        return Room.databaseBuilder(context, AppDatabase::class.java, Config.DB_NAME)
+                .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
+                .build()
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideDataManager(appDataManager: AppDataManager): DataManager {
         return appDataManager
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideDbHelper(appDbHelper: AppDbHelper): DbHelper {
+        return appDbHelper
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideApiHelper(appApiHelper: AppApiHelper):ApiHelper{
+        return appApiHelper
     }
 }

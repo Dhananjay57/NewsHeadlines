@@ -9,12 +9,11 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import com.example.drizzle.newsheadlines.R
 import com.example.drizzle.newsheadlines.ViewModelFactory
 import com.example.drizzle.newsheadlines.data.DataManager
-import com.example.drizzle.newsheadlines.data.network.Article
-import com.example.drizzle.newsheadlines.data.network.Headlines
+import com.example.drizzle.newsheadlines.network.model.Article
+import com.example.drizzle.newsheadlines.network.model.Headlines
 import com.example.drizzle.newsheadlines.databinding.ActivityMainBinding
 import dagger.android.AndroidInjection
 import io.reactivex.Observable
@@ -70,7 +69,7 @@ class MainActivity : AppCompatActivity() , ArticlesAdapter.Callback{
 
                         override fun onNext(t: Headlines) {
                             adapter.addItems(t.articles as MutableList<Article>?)
-                            Log.d("@@@", t.toString())
+                            Timber.d(t.toString())
                         }
 
                         override fun onError(e: Throwable) {
@@ -84,37 +83,37 @@ class MainActivity : AppCompatActivity() , ArticlesAdapter.Callback{
         news_recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         news_recyclerView.adapter = adapter
 
-       // getArticles()
+        getArticles()
 
 
     }
-//
-//    private fun getArticles() {
-//        Observable.concat(
-//                newsViewModel.getArticlesFromDatabase(),
-//                newsViewModel.getArticlesFromNetwork()
-//        )
-//                .observeOn(AndroidSchedulers.mainThread(), true)
-//                .subscribe(object : Observer<Headlines?> {
-//                    override fun onComplete() {
-//                        refresh_layout.isRefreshing = false
-//                    }
-//
-//                    override fun onSubscribe(d: Disposable) {
-//                        refresh_layout.isRefreshing = true
-//                        mCompositeDisposable.add(d)
-//                    }
-//
-//                    override fun onNext(t: Headlines) {
-//                        adapter.addItems(t.articles as MutableList<Article>?)
-//                    }
-//
-//                    override fun onError(e: Throwable) {
-//                        refresh_layout.isRefreshing = false
-//                        Timber.e(e.message)
-//                    }
-//                })
-//    }
+
+    private fun getArticles() {
+        Observable.concat(
+                newsViewModel.getArticlesFromDatabase(),
+                newsViewModel.getArticlesFromNetwork()
+        )
+                .observeOn(AndroidSchedulers.mainThread(), true)
+                .subscribe(object : Observer<Headlines?> {
+                    override fun onComplete() {
+                        refresh_layout.isRefreshing = false
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+                        refresh_layout.isRefreshing = true
+                        mCompositeDisposable.add(d)
+                    }
+
+                    override fun onNext(t: Headlines) {
+                        adapter.addItems(t.articles as MutableList<Article>?)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        refresh_layout.isRefreshing = false
+                        Timber.e(e.message)
+                    }
+                })
+    }
 
     override fun onArticleClick(url: String) {
         customTabIntent.launchUrl(this, Uri.parse(url))

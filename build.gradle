@@ -6,7 +6,7 @@ buildscript {
             'compileSdk'      : 27,//
             'targetSdk'       : 27,//
             'buildTools'      : '27.0.3',//
-            'glide'           : '4.7.1',//
+            'glide'           : '4.8.0',//
             'retrofit'        : '2.3.0',//
             'okhttp'          : '3.9.1',//
             'rxandroid'       : '2.1.0',//
