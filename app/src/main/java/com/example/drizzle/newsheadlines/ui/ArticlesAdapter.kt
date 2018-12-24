@@ -1,10 +1,14 @@
 package com.example.drizzle.newsheadlines.ui
 
+import android.content.Intent
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.example.drizzle.newsheadlines.R
 import com.example.drizzle.newsheadlines.network.model.Article
 import com.example.drizzle.newsheadlines.databinding.NewsArticleListItemBinding
+import kotlinx.android.synthetic.main.news_article_list_item.view.*
 
 class ArticlesAdapter(private val  articles: MutableList<Article>?) : RecyclerView.Adapter<ArticlesAdapter.ArticleViewHolder>() {
 
@@ -43,6 +47,18 @@ class ArticlesAdapter(private val  articles: MutableList<Article>?) : RecyclerVi
     inner class ArticleViewHolder (val binding: NewsArticleListItemBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(item: Article){
             binding.articles = item
+            binding.title.setOnClickListener {
+                val article: Article? = getItem(position = adapterPosition)
+                if (article != null) {
+                    callback?.onArticleClick(article.url ?: "")
+                } }
+            binding.share.setOnClickListener {
+                val shareIntent = Intent()
+                shareIntent.action = Intent.ACTION_SEND
+                shareIntent.type="text/plain"
+                shareIntent.putExtra(Intent.EXTRA_TEXT, articles?.get(position)?.url);
+                binding.root.context.startActivity(Intent.createChooser(shareIntent,"Sahre Using"))
+            }
             binding.executePendingBindings()
         }
     }
