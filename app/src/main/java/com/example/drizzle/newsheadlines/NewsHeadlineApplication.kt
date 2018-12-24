@@ -2,6 +2,7 @@ package com.example.drizzle.newsheadlines
 
 import android.app.Activity
 import android.app.Application
+import com.bumptech.glide.Glide
 import com.example.drizzle.newsheadlines.di.component.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -22,7 +23,6 @@ class NewsHeadlineApplication: Application(), HasActivityInjector {
                 .inject(this)
 
         Timber.plant(Timber.DebugTree())
-
     }
 
     override fun activityInjector(): AndroidInjector<Activity> {
